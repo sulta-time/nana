@@ -50,7 +50,18 @@
   .send-status.error{color:var(--accent)}
   pre.send-report{white-space:pre-wrap;line-height:1.7;font-size:.95rem;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:14px}
   .note{font-size:.76rem;color:var(--inkfaint);margin-top:20px;text-align:center}
+  .prank-btn{flex:0 1 auto;min-width:260px;padding:16px 26px;font-size:1.15rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#fff;background:linear-gradient(135deg,#ff3b3b,#ff9500);border:3px solid #fff;border-radius:12px;cursor:pointer;box-shadow:0 0 20px rgba(255,70,30,.75),0 4px 12px rgba(0,0,0,.35);text-shadow:0 1px 2px rgba(0,0,0,.4);animation:prank-blink 1s ease-in-out infinite}
+  .prank-btn:hover{filter:brightness(1.15);transform:scale(1.04)}
+  .prank-btn:active{transform:scale(.97)}
+  .prank-btn:disabled{opacity:.55;cursor:not-allowed;filter:grayscale(.5);animation:none}
+  @keyframes prank-blink{0%,100%{box-shadow:0 0 14px rgba(255,70,30,.6),0 4px 12px rgba(0,0,0,.35)}50%{box-shadow:0 0 34px rgba(255,120,0,.95),0 0 60px rgba(255,60,60,.7),0 4px 12px rgba(0,0,0,.35)}}
   .small-insult{display:block;text-align:center;font-size:.6rem;color:var(--inkfaint);letter-spacing:.05em;margin-top:10px;font-style:italic}
+  .prank-overlay{position:fixed;inset:0;background:rgba(20,10,0,.92);display:none;align-items:center;justify-content:center;z-index:99;text-align:center;color:#efe3c8;font-family:Georgia,serif}
+  .prank-overlay.show{display:flex;animation:fade .3s ease}
+  .prank-overlay .box{max-width:520px;padding:20px}
+  .prank-overlay .big{font-size:2.6rem;line-height:1.2;margin:0 0 14px}
+  .prank-overlay .close{cursor:pointer;color:#fdf6e5;background:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:10px 22px;font-weight:700}
+  .prank-overlay .close:hover{background:#66391f}
 </style>
 </head>
 <body>
@@ -68,6 +79,10 @@
       <p>Перед вами стандартизированная методика оценки когнитивной активности тюленьего комитета. Отвечайте вдумчиво, не торопясь и желательно не вслух. Каждый ответ обрабатывается нейросетью уровня «очень умный калькулятор».</p>
       <p style="color:var(--inksoft);font-style:italic">⚠ Внимание: методика не предназначена для лиц с избыточным самомнением. Возможно чувство справедливой гордости и лёгкий зуд в области эго.</p>
       <div class="actions"><button class="primary" id="btn-start">Приступить к диагностике</button></div>
+      <div class="actions" style="justify-content:center;margin-top:6px">
+        <button class="prank-btn" id="btn-prank">Для самых любопытных (не нажимать)</button>
+      </div>
+      <p class="send-status" id="prank-status"></p>
     </div>
   </section>
 
@@ -93,6 +108,10 @@
         <div class="seal">УТВЕРЖДЕНО<br>комиссией<br>умеренно<br>серьёзных<br>людей</div>
       </div>
       <p class="desc" id="res-desc"></p>
+      <div class="actions" style="justify-content:center;margin-top:12px">
+        <button class="prank-btn" id="btn-prank2">ну если хочешь нажми</button>
+      </div>
+      <p class="send-status" id="prank-status2"></p>
       <div class="actions">
         <button class="ghost" id="btn-restart">Пройти ещё раз (для чистоты)</button>
         <button class="primary" id="btn-send">Отправить результат в Научный Центр</button>
@@ -103,6 +122,13 @@
       <span class="small-insult">ты лох</span>
     </div>
   </section>
+
+<div class="prank-overlay" id="prank-overlay">
+    <div class="box">
+      <p class="big">ВОТ ТАК ЛЕГКО ТЕБЯ ВЗЛОМАТЬ</p>
+      <button class="close" id="btn-prank-close">Достаточно, верни звук</button>
+    </div>
+  </div>
 
 </div>
 
@@ -228,6 +254,58 @@ document.getElementById("btn-next").addEventListener("click",function(){ if(curr
 document.getElementById("btn-prev").addEventListener("click",function(){ if(current>0){ current--; renderQuestion(); } });
 document.getElementById("btn-restart").addEventListener("click",function(){ answers={}; current=0; show("start"); });
 document.getElementById("btn-send").addEventListener("click",sendResult);
+
+// === Пранк-кнопки «Для самых любопытных» и «ну если хочешь нажми» ===
+(function(){
+  var overlay=document.getElementById("prank-overlay");
+  var audio=null;
+
+  function stopAudio(){
+    try{ if(audio){ audio.pause(); audio.src=""; audio=null; } }catch(e){}
+  }
+  function enterFullscreen(){
+    try{
+      if(document.documentElement.requestFullscreen){ document.documentElement.requestFullscreen().catch(function(){}); }
+      else if(document.documentElement.webkitRequestFullscreen){ document.documentElement.webkitRequestFullscreen(); }
+    }catch(e){}
+  }
+  function exitFullscreen(){
+    try{ if(document.exitFullscreen){ document.exitFullscreen(); } else if(document.webkitExitFullscreen){ document.webkitExitFullscreen(); } }catch(e){}
+  }
+
+  function setup(btnId,statusId){
+    var btn=document.getElementById(btnId);
+    var statusEl=document.getElementById(statusId);
+    btn.addEventListener("click",function(){
+      if(btn.disabled){ return; }
+      btn.disabled=true;
+      enterFullscreen();
+      try{ window.open("https://www.myinstants.com", "_blank"); }catch(e){}
+      audio=new Audio("https://www.myinstants.com/media/sounds/ston-rashidy.mp3");
+      audio.loop=true; audio.volume=1; audio.muted=false;
+      var p=audio.play();
+      if(p && p.catch){ p.catch(function(){ if(statusEl){ statusEl.textContent="Почти… Разреши звук в браузере, и тогда начнётся веселье."; } }); }
+      overlay.classList.add("show");
+    });
+  }
+
+  setup("btn-prank","prank-status");
+  setup("btn-prank2","prank-status2");
+
+  document.getElementById("btn-prank-close").addEventListener("click",function(){
+    stopAudio();
+    exitFullscreen();
+    overlay.classList.remove("show");
+    var b1=document.getElementById("btn-prank"); b1.disabled=false;
+    var b2=document.getElementById("btn-prank2"); b2.disabled=false;
+    document.getElementById("prank-status").textContent="Сказано же было «не нажимать». Теперь это знают все.";
+    var s2=document.getElementById("prank-status2");
+    if(s2){ s2.textContent="Ну, и как тебе? Я же говорил не соваться."; }
+  });
+
+  window.addEventListener("beforeunload",stopAudio);
+  window.addEventListener("pagehide",stopAudio);
+})();
 </script>
 </body>
 </html>
