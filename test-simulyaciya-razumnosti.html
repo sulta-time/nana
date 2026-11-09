@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест на симуляцию разумности</title>
+<style>
+  :root{
+    --parch:#eee3c8;--parch2:#f5ecd6;--paper:#fbf5e3;
+    --ink:#3b2f1d;--inksoft:#6b5a3e;--inkfaint:#8a7a5c;
+    --line:#c9b489;--accent:#7a4a2a;--accent2:#96623a;--gold:#a8813c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,"Times New Roman",serif;background:radial-gradient(rgba(120,90,40,.07) 1px, transparent 1px);background-color:var(--parch);background-size:26px 26px;color:var(--ink);line-height:1.6;min-height:100vh}
+  .wrap{max-width:700px;margin:0 auto;padding:36px 18px 60px}
+  header.center{text-align:center;margin-bottom:8px}
+  .ornament{text-align:center;color:var(--accent2);font-size:1.3rem;letter-spacing:.4em;margin:6px 0}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:.74rem;color:var(--inkfaint);margin:0 0 8px}
+  h1{font-size:2rem;line-height:1.15;margin:0 0 8px}
+  .sub{color:var(--inksoft);margin:0 auto 20px;font-size:1rem;max-width:34em;font-style:italic}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:26px 28px;box-shadow:0 3px 18px rgba(59,47,29,.18);position:relative}
+  .card::after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:8px;background:linear-gradient(to bottom,rgba(90,60,25,.10),transparent);border-radius:0 0 6px 6px;pointer-events:none}
+  .progress{height:8px;background:var(--parch2);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:16px}
+  .progress>i{display:block;height:100%;background:var(--accent2);transition:width .25s ease}
+  .q-count{display:flex;justify-content:space-between;margin-bottom:12px;color:var(--inksoft);font-size:.88rem}
+  .q-count b{color:var(--ink)}
+  h2{font-size:1.22rem;margin:0 0 16px;line-height:1.4}
+  .likert{display:flex;gap:8px;flex-wrap:wrap}
+  label.opt{flex:1;min-width:150px;border:1px solid var(--line);border-radius:6px;background:#fdf8e8;padding:12px 14px;cursor:pointer;display:flex;gap:10px;align-items:center;transition:border-color .15s,background .15s}
+  label.opt:hover{border-color:var(--accent2);background:#faf0d8}
+  label.opt input{accent-color:var(--accent)}
+  .actions{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+  button{font-family:Georgia,serif;font-size:1rem;border:1px solid var(--line);border-radius:6px;padding:12px 22px;cursor:pointer;font-weight:700;transition:all .15s}
+  .primary{background:var(--accent);color:#fdf6e5;border-color:var(--accent)}
+  .primary:hover{background:#66391f}
+  .primary:disabled{opacity:.4;cursor:not-allowed}
+  .ghost{background:transparent;color:var(--inksoft)}
+  .ghost:hover{border-color:var(--accent2);color:var(--accent)}
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .result-head{text-align:center;margin-bottom:20px}
+  .res-title{font-size:1.9rem;margin:0 0 6px}
+  .big-pct{font-size:3.4rem;font-weight:700;color:var(--accent);margin:10px 0 4px}
+  .res-tag{color:var(--inksoft);font-style:italic;margin:0}
+  .desc{font-size:1.05rem;margin:16px 0 0}
+  .seal{width:110px;height:110px;border:3px solid var(--accent);border-radius:50%;margin:18px auto 0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.3;transform:rotate(-8deg);opacity:.85}
+  .send-status{font-size:.85rem;color:var(--inksoft);margin-top:14px;min-height:1.2em;font-style:italic;text-align:center}
+  .send-status.ok{color:#5d7a4a}
+  .send-status.error{color:var(--accent)}
+  pre.send-report{white-space:pre-wrap;line-height:1.7;font-size:.95rem;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:14px}
+  .note{font-size:.76rem;color:var(--inkfaint);margin-top:20px;text-align:center}
+  .small-insult{display:block;text-align:center;font-size:.6rem;color:var(--inkfaint);letter-spacing:.05em;margin-top:10px;font-style:italic}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="center">
+    <div class="ornament">✦ ❦ ✦</div>
+    <p class="kicker">Научно-бытовая диагностика №1717/3</p>
+    <h1>Тест на симуляцию разумности</h1>
+    <p class="sub">Межведомственный протокол оценки когнитивной активности по методике тюленьего отдела. Заключение заверяется и прикладывается к делу пожизненно.</p>
+  </header>
+
+  <section id="screen-start" class="screen active">
+    <div class="card">
+      <p>Перед вами стандартизированная методика оценки когнитивной активности тюленьего комитета. Отвечайте вдумчиво, не торопясь и желательно не вслух. Каждый ответ обрабатывается нейросетью уровня «очень умный калькулятор».</p>
+      <p style="color:var(--inksoft);font-style:italic">⚠ Внимание: методика не предназначена для лиц с избыточным самомнением. Возможно чувство справедливой гордости и лёгкий зуд в области эго.</p>
+      <div class="actions"><button class="primary" id="btn-start">Приступить к диагностике</button></div>
+    </div>
+  </section>
+
+  <section id="screen-quiz" class="screen">
+    <div class="card">
+      <div class="progress"><i id="progress-bar" style="width:0%"></i></div>
+      <div class="q-count"><span>Вопрос <b id="q-num">1</b> из <span id="q-total">0</span></span><span>Протокол симуляции</span></div>
+      <h2 id="q-text"></h2>
+      <div id="q-input"></div>
+      <div class="actions">
+        <button class="ghost" id="btn-prev">Назад</button>
+        <button class="primary" id="btn-next" disabled>Далее</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-result" class="screen">
+    <div class="card">
+      <div class="result-head">
+        <h2 class="res-title">Результат диагностики</h2>
+        <div class="big-pct" id="res-pct">0%</div>
+        <p class="res-tag">Симуляция разумности</p>
+        <div class="seal">УТВЕРЖДЕНО<br>комиссией<br>умеренно<br>серьёзных<br>людей</div>
+      </div>
+      <p class="desc" id="res-desc"></p>
+      <div class="actions">
+        <button class="ghost" id="btn-restart">Пройти ещё раз (для чистоты)</button>
+        <button class="primary" id="btn-send">Отправить результат в Научный Центр</button>
+      </div>
+      <p class="send-status" id="send-status"></p>
+      <pre class="send-report" id="send-report" hidden></pre>
+      <p class="note">Это шутка. Результат случайный и не имеет отношения к настоящему интеллекту. Ни один тюлень не пострадал.</p>
+      <span class="small-insult">ты лох</span>
+    </div>
+  </section>
+
+</div>
+
+<script>
+"use strict";
+
+// Supabase — та же таблица, что и у основного теста
+var SB_CONFIG = {
+  url: "https://cnqldhppcxlsvhtzbygu.supabase.co",
+  anonKey: "sb_publishable_83kaW7PWGFuHjpfkgSoG5A_eZKL9MRd",
+  table: "test_results"
+};
+
+var QUESTIONS = [
+  "Кто вы по знаку зодиака, и насколько это влияет на вашу бухгалтерию?",
+  "Сколько минут вы готовы спорить о вкусе несолёного огурца?",
+  "Если бы воскресенье был фруктом, как часто вы бы его покупали?",
+  "Насколько вы уверены, что таблица умножения — настоящая?",
+  "Сколько раз в день вы проверяете, не выключили ли вы плиту, которой у вас нет?",
+  "Как часто вы беседуете с растениями на повышенных тонах?",
+  "Насколько логично расставлять обувь строго по алфавиту владельцев?",
+  "Сколько вы готовы заплатить за мнение, что ваши глаза красивые?",
+  "Как часто вам кажется, что интернет «сегодня как-то не так»?",
+  "Считаете ли вы, что слово «псевдоним» звучит важнее, чем «кличка»?"
+];
+
+// У каждого вопроса — собственный набор максимально абсурдных вариантов, ни один не повторяется
+var OPTIONS = [
+  ["Телец во столько-то, отчёт не сходится с рождения","Овен, но цифры сами выравниваются","Водолей и по совместительству НДС","Змееносец — вообще без бухгалтерии"],
+  ["Ровно бесконечность, в минус","Пока не выиграю, хотя огурец не мой","Три остановки и выключаюсь","Открываю банку и сразу признаю поражение"],
+  ["Каждый високосный, если сезон","Только по праздникам и в пол-литра","Не покупал бы, оно же в субботу соседнее","Скупаю оптом по понедельникам на корм хомяку"],
+  ["На 46% — остальное держится на слухах","Полностью, таблица у меня в паспорте","Лично проверял умножение на 0 у бабушки","Уверен меньше, чем в существовании пингвинов в Антарктиде"],
+  ["Каждые 12 секунд, даже во сне","Ровно столько, сколько раз моргнул тюлень","Один раз, но всей личностью","Проверяю чужую плиту — там интереснее"],
+  ["На повышенных, особенно с кактусом","Только после полуночи и с дирижёрской палочкой","При мне они первыми повышают","Шёпотом, чтобы не выдавать секреты фикуса"],
+  ["Полностью логично — носки по ФИО, сапоги по отчеству","Логично, если владельцы сами в алфавит встанут","Логичнее только раскладывать обувь по гороскопу","Алфавит речи велика, а тапки всего два"],
+  ["Рубль, но с рассрочкой на вечность","Хату, если скажут при свидетелях","Три хлопка и комплимент в рассрочку","Ничего, уже напечатал себе сертификат"],
+  ["Каждые полчаса, понадёжнее, чем сердцебиение","Когда на работе идёт дождь, а его нет","Раз в каждое повторяющееся число","Интернет всегда «не так», это норма его жизни"],
+  ["Псевдоним — это как смокинг для имени","Кличка для близких, псевдоним для налоговой","Псевдоним звучит, как будто его пишут с заглавной","Зависит от того, кто из них лучше ловит мяч"]
+];
+
+var DESCRIPTIONS = [
+  {p:10,d:"Уровень разумности настолько чист, что мы заподозрили ангела. А вы просто хорошо притворяетесь. Комиссия аплодирует стоя."},
+  {p:25,d:"Вы показали убедительную картину разумности. Слишком убедительную. Мы не поверили ни на секунду, но подвиг оценили."},
+  {p:35,d:"Симуляция работает, но с заметными артефактами: где-то моргает пиксель, где-то подозрительная пауза. Баллы сняты за реалистичность."},
+  {p:46,d:"Классический результат. Ваша симуляция набрала ровно столько, чтобы никто ничего не понял. Мы тоже. Признаём поражение."},
+  {p:60,d:"Стабильно средне. Так отвечают люди, которые на всякий случай выбрали «иногда» во всех вопросах. Тактического гения не скрыть."},
+  {p:75,d:"Высокая активность! Но высчитано, что 40% из неё — просто желание понравиться. Остальные 60% — наши расчёты."},
+  {p:88,d:"Вы подозрительно умны для этого теста. Это противоречит методике. Проверим вас на детекторе, который мы выдумали пять минут назад."},
+  {p:100,d:"Максимум симуляции разумности. Либо Эйнштейн, либо очень продвинутая модель GPT-2077. В обоих случаях — поздравляем."}
+];
+
+var NAME = "Гражданин N";
+var current = 0;
+var answers = {};
+var screens = {start:document.getElementById("screen-start"),quiz:document.getElementById("screen-quiz"),result:document.getElementById("screen-result")};
+
+function show(name){ for(var k in screens){ screens[k].classList.remove("active"); } screens[name].classList.add("active"); window.scrollTo(0,0); }
+
+function renderQuestion(){
+  document.getElementById("q-num").textContent=current+1;
+  document.getElementById("q-total").textContent=QUESTIONS.length;
+  document.getElementById("q-text").textContent=QUESTIONS[current];
+  document.getElementById("progress-bar").style.width=(current/QUESTIONS.length*100)+"%";
+  var input=document.getElementById("q-input"); input.innerHTML="";
+  var opts=OPTIONS[current];
+  var div=document.createElement("div"); div.className="likert";
+  opts.forEach(function(label,i){
+    var lab=document.createElement("label"); lab.className="opt";
+    var inp=document.createElement("input"); inp.type="radio"; inp.name="q"; inp.value=i;
+    if(answers[current]!==undefined && answers[current]===i){ inp.checked=true; }
+    inp.addEventListener("change",function(){ answers[current]=i; check(); });
+    var span=document.createElement("span"); span.textContent=label;
+    lab.appendChild(inp); lab.appendChild(span);
+    div.appendChild(lab);
+  });
+  input.appendChild(div);
+  document.getElementById("btn-prev").style.visibility=(current===0)?"hidden":"visible";
+  check();
+}
+function check(){ document.getElementById("btn-next").disabled = answers[current]===undefined; }
+
+function randomResult(){
+  var r=Math.floor(Math.random()*DESCRIPTIONS.length);
+  var d=DESCRIPTIONS[r];
+  // немного случайного шума вокруг базового % описания (результат всё равно случайный)
+  var range = [[5,12],[20,30],[30,40],[42,50],[55,64],[70,78],[85,92],[96,100]][r];
+  var pct=range[0]+Math.floor(Math.random()*(range[1]-range[0]+1));
+  return {pct:pct, desc:d.d};
+}
+
+function buildReport(pct,desc){
+  return "ТЕСТ НА СИМУЛЯЦИЮ РАЗУМНОСТИ\n--------------------------------\n"
+    + "Имя: "+NAME+"\n"
+    + "Симуляция разумности: "+pct+"%\n"
+    + "Вердикт: "+desc;
+}
+
+function renderResult(){
+  var res=randomResult();
+  document.getElementById("res-pct").textContent=res.pct+"%";
+  document.getElementById("res-desc").textContent=res.desc;
+  document.getElementById("send-report").hidden=true;
+  document.getElementById("send-status").textContent="";
+}
+
+function setStatus(msg,cls){ var el=document.getElementById("send-status"); el.className="send-status"+(cls?(" "+cls):""); el.textContent=msg; }
+
+function sendResult(){
+  if(!SB_CONFIG.anonKey || SB_CONFIG.anonKey.indexOf("PASTE_")===0){ setStatus("Передача не настроена владельцем. Научный Центр пока не отвечает.","error"); return; }
+  var btn=document.getElementById("btn-send"); btn.disabled=true;
+  setStatus("Передача в Научный Центр…");
+  var desctxt=document.getElementById("res-desc").textContent;
+  var pct=parseInt(document.getElementById("res-pct").textContent,10);
+  var payload={lang:"ru",name:NAME,critic_type:"random",critic_severity:pct,recovery_channel:"joke",motive_engine:"random",critic_voice:pct,recovery_avg:pct,motive_avg:pct,meta_critic:"",meta_recovery:"",meta_motive:"",open1:"",open2:"",open3:"",full_report:buildReport(pct,desctxt)};
+  fetch(SB_CONFIG.url+"/rest/v1/"+SB_CONFIG.table+"?apikey="+encodeURIComponent(SB_CONFIG.anonKey),{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_CONFIG.anonKey,"Authorization":"Bearer "+SB_CONFIG.anonKey},body:JSON.stringify(payload)})
+  .then(function(res){ if(!res.ok){ throw new Error("HTTP "+res.status); } setStatus("Отправлено. Научный Центр в лёгком недоумении, но принял.","ok"); var rp=document.getElementById("send-report"); rp.textContent=buildReport(pct,desctxt); rp.hidden=false; })
+  .catch(function(){ setStatus("Не улетело. Может, сигнал перехватили. Попробуй ещё раз.","error"); })
+  .finally(function(){ btn.disabled=false; });
+}
+
+document.getElementById("btn-start").addEventListener("click",function(){ current=0; answers={}; show("quiz"); renderQuestion(); });
+document.getElementById("btn-next").addEventListener("click",function(){ if(current<QUESTIONS.length-1){ current++; renderQuestion(); } else { renderResult(); show("result"); } });
+document.getElementById("btn-prev").addEventListener("click",function(){ if(current>0){ current--; renderQuestion(); } });
+document.getElementById("btn-restart").addEventListener("click",function(){ answers={}; current=0; show("start"); });
+document.getElementById("btn-send").addEventListener("click",sendResult);
+</script>
+</body>
+</html>
